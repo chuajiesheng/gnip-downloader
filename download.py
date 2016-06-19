@@ -72,6 +72,6 @@ for filename in files:
 
 assert renamed == urlCount
 
-cmd = [command['unzip'], '-r', data_directory]
+cmd = [command['unzip'], '-r', '-k', data_directory]
 return_code = subprocess.call(cmd)
 assert return_code == 0
