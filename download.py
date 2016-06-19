@@ -16,6 +16,7 @@ def call_cmd(cmd):
     status_code = subprocess.call(cmd)
     if status_code is 0:
         sys.stdout.write('.')
+        sys.stdout.flush()
     return status_code
 
 if __name__ == '__main__':
