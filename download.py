@@ -51,7 +51,12 @@ if not os.path.exists(data_directory):
 downloaded = 0
 
 for url in urlList:
-    cmd = [command['wget'], '--user=' + username, '--password=' + password, '--directory-prefix=' + data_directory, url]
+    output_file = os.path.join(data_directory, str(downloaded) + '.json.gz')
+    cmd = [command['wget'],
+           '--user=' + username,
+           '--password=' + password,
+           '--output-document=' + output_file,
+           url]
     return_code = subprocess.call(cmd)
     assert return_code == 0
     downloaded += 1
