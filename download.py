@@ -12,6 +12,12 @@ def get_cmd():
     return cmd
 
 
+def call_cmd(cmd):
+    status_code = subprocess.call(cmd)
+    if status_code is 0:
+        sys.stdout.write('.')
+    return status_code
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print 'Please provide results.json URL.'
@@ -68,7 +74,7 @@ if __name__ == '__main__':
 
     results = []
     pool = multiprocessing.Pool(processes=20)
-    results = pool.map(subprocess.call, cmd_list)
+    results = pool.map(call_cmd, cmd_list)
     pool.close()
     pool.join()
 
