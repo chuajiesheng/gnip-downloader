@@ -1,1 +1,2 @@
 wget: wget
+unzip: gunzip

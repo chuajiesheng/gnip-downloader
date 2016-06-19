@@ -43,17 +43,35 @@ with open(command_file, 'r') as stream:
 working_directory = os.getcwd()
 print 'Working directory', working_directory
 
-gzip_directory = os.path.join(working_directory, 'gzipped')
-print 'Downloading GZIP to directory', gzip_directory
-if not os.path.exists(gzip_directory):
-    os.makedirs(gzip_directory)
+data_directory = os.path.join(working_directory, 'data')
+print 'Downloading to directory', data_directory
+if not os.path.exists(data_directory):
+    os.makedirs(data_directory)
 
 downloaded = 0
 
 for url in urlList:
-    cmd = [command['wget'], '--user=' + username, '--password=' + password, '--directory-prefix=' + gzip_directory, url]
+    cmd = [command['wget'], '--user=' + username, '--password=' + password, '--directory-prefix=' + data_directory, url]
     return_code = subprocess.call(cmd)
     assert return_code == 0
     downloaded += 1
 
 assert downloaded == urlCount
+
+files = []
+for (dirpath, dirnames, filenames) in os.walk(data_directory):
+    files.extend(filenames)
+    break
+
+renamed = 0
+
+for filename in files:
+    new_filename = filename[:filename.index('?')]
+    os.rename(os.path.join(data_directory, filename), os.path.join(data_directory, new_filename))
+    renamed += 1
+
+assert renamed == urlCount
+
+cmd = [command['unzip'], '-r', data_directory]
+return_code = subprocess.call(cmd)
+assert return_code == 0
