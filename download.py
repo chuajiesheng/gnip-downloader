@@ -7,6 +7,7 @@ def get_cmd():
            '--user=' + username,
            '--password=' + password,
            '--output-document=' + output_file,
+           '-q',
            url]
     return cmd
 
