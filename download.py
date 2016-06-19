@@ -88,5 +88,6 @@ if __name__ == '__main__':
         break
 
     cmd = [command['unzip'], '-r', '-k', data_directory]
+    print 'Unzipping all file in', data_directory
     return_code = subprocess.call(cmd)
     assert return_code == 0
