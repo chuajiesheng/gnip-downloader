@@ -68,10 +68,13 @@ if __name__ == '__main__':
 
     results = []
     pool = multiprocessing.Pool(processes=20)
-    results = pool.map(subprocess.call, cmd_list[:20])
+    results = pool.map(subprocess.call, cmd_list)
     pool.close()
     pool.join()
-    print results
+
+    for index, result in enumerate(results):
+        if result is not 0:
+            print 'Check [{}] {}'.format(index, urlList[index])
 
     files = []
     for (dirpath, dirnames, filenames) in os.walk(data_directory):
