@@ -77,15 +77,6 @@ if __name__ == '__main__':
         files.extend(filenames)
         break
 
-    renamed = 0
-
-    for filename in files:
-        new_filename = filename[:filename.index('?')]
-        os.rename(os.path.join(data_directory, filename), os.path.join(data_directory, new_filename))
-        renamed += 1
-
-    assert renamed == urlCount
-
     cmd = [command['unzip'], '-r', '-k', data_directory]
     return_code = subprocess.call(cmd)
     assert return_code == 0
