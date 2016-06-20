@@ -19,6 +19,12 @@ def call_cmd(cmd):
         sys.stdout.flush()
     return status_code
 
+
+def make_directory(directory_name):
+    if not os.path.exists(directory_name):
+        os.makedirs(directory_name)
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print 'Please provide results.json URL.'
@@ -65,8 +71,7 @@ if __name__ == '__main__':
 
     data_directory = os.path.join(working_directory, 'data')
     print 'Downloading to directory', data_directory
-    if not os.path.exists(data_directory):
-        os.makedirs(data_directory)
+    make_directory(data_directory)
 
     cmd_list = []
     for index, url in enumerate(urlList):
@@ -91,4 +96,12 @@ if __name__ == '__main__':
     cmd = [command['unzip'], '-r', '-k', data_directory]
     print 'Unzipping all file in', data_directory
     return_code = subprocess.call(cmd)
+    assert return_code == 0
+
+    json_directory = os.path.join(working_directory, 'json')
+    make_directory(json_directory)
+    cmd = '{} -f {} {}'.format(command['move'], data_directory + os.path.sep + '*.json', json_directory)
+    print cmd
+    print 'Moving json files to', json_directory
+    return_code = subprocess.call(cmd, shell=True)
     assert return_code == 0
